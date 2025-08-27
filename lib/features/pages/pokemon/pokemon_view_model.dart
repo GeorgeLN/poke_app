@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_app/data/model/pokemon_model.dart';
 import 'package:pokemon_app/data/repository/pokemon_repository.dart';
+import 'package:pokemon_app/features/states/provider/poke_provider.dart';
+import 'package:provider/provider.dart';
 
 enum PokemonState {loading, content, error}
 
@@ -11,11 +13,12 @@ class PokemonViewModel with ChangeNotifier {
 
   PokemonState state = PokemonState.loading;
 
-  Future<void> loadPokemons() async {
+  Future<void> loadPokemons({BuildContext? context}) async {
     try {
       showLoading();
 
-      final pokemons = await PokemonRepository().getPokemons();
+      String? cantidad = context?.read<PokeProvider>().getCantidad;
+      final pokemons = await PokemonRepository().getPokemons(limit: int.tryParse(cantidad ?? '20') ?? 20);
       _pokemonList = pokemons;
       
       showContent();

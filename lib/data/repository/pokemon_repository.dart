@@ -2,13 +2,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pokemon_app/data/model/pokemon_model.dart';
-import 'package:pokemon_app/features/states/provider/poke_provider.dart';
 
 class PokemonRepository {
-  Future<List<PokemonModel>> getPokemons() async {
-    final String cantidad = PokeProvider().getCantidad ?? '30';
+  Future<List<PokemonModel>> getPokemons({int limit = 20}) async {
 
-    final response = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=$cantidad'));
+    final response = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=$limit'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

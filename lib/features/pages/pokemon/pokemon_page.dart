@@ -21,7 +21,7 @@ class _PokemonPageState extends State<PokemonPage> {
     pokemonModel = context.read<PokemonViewModel>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      pokemonModel.loadPokemons();
+      pokemonModel.loadPokemons(context: context);
     });
   }
 
@@ -38,7 +38,7 @@ class _PokemonPageState extends State<PokemonPage> {
         actions: [
           IconButton(
             onPressed: () {
-              pokemonModel.loadPokemons();
+              pokemonModel.loadPokemons(context: context);
             },
             icon: const Icon(Icons.refresh),
           )
@@ -69,7 +69,7 @@ class _PokemonPageState extends State<PokemonPage> {
                         if (_cantidadController.text.isNotEmpty) {
                           String cantidad = _cantidadController.text;
                           pokeProvider.setCantidad(cantidad);
-                          pokemonModel.loadPokemons();
+                          pokemonModel.loadPokemons(context: context);
                         }
                       },
                       child: const Text('Buscar'),
@@ -101,7 +101,7 @@ class _PokemonPageState extends State<PokemonPage> {
                         return Center(
                           child: ElevatedButton(
                             onPressed: () {
-                              pokemonModel.loadPokemons();
+                              pokemonModel.loadPokemons(context: context);
                             },
                             child: const Text('Reintentar'),
                           ),
