@@ -52,11 +52,11 @@ class PokemonNotifier extends StateNotifier<PokemonState> {
   // El constructor del Notifier recibe el estado inicial.
   PokemonNotifier(this._repository, this.ref) : super(PokemonState()) {
     // Podemos llamar a métodos aquí al inicializar si es necesario.
-    loadPokemons();
+    loadPokemonsProvider();
   }
 
   // Método para cargar los Pokémon.
-  Future<void> loadPokemons() async {
+  Future<void> loadPokemonsProvider() async {
     // Actualizamos el estado para indicar que la carga está en curso.
     // Usamos `state` para acceder y modificar el estado actual.
     state = state.copyWith(isLoading: true, errorMessage: null);

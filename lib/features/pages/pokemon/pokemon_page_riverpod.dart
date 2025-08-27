@@ -28,7 +28,7 @@ class PokemonPageRiverpod extends ConsumerWidget {
               // Usamos `ref.read` para obtener el notifier y llamar a sus métodos.
               // `read` no escucha los cambios, solo obtiene el valor actual o el notifier.
               // Es ideal para usar dentro de callbacks como `onPressed`.
-              ref.read(pokemonNotifierProvider.notifier).loadPokemons();
+              ref.read(pokemonNotifierProvider.notifier).loadPokemonsProvider();
             },
             icon: const Icon(Icons.refresh),
           )
@@ -57,7 +57,7 @@ class PokemonPageRiverpod extends ConsumerWidget {
                       // Leemos el notifier del `cantidadPokemonProvider` y actualizamos su estado.
                       ref.read(cantidadPokemonProvider.notifier).state = _cantidadController.text;
                       // Volvemos a cargar los pokemons con la nueva cantidad.
-                      ref.read(pokemonNotifierProvider.notifier).loadPokemons();
+                      ref.read(pokemonNotifierProvider.notifier).loadPokemonsProvider();
                     }
                   },
                   child: const Text('Buscar'),
@@ -77,7 +77,7 @@ class PokemonPageRiverpod extends ConsumerWidget {
                             Text(pokemonState.errorMessage!),
                             ElevatedButton(
                               onPressed: () {
-                                ref.read(pokemonNotifierProvider.notifier).loadPokemons();
+                                ref.read(pokemonNotifierProvider.notifier).loadPokemonsProvider();
                               },
                               child: const Text('Reintentar'),
                             ),
