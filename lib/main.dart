@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_app/features/pages/pages.dart';
-import 'package:pokemon_app/features/pages/pokemon/pokemon_view_model.dart';
+import 'package:pokemon_app/features/pages/pokemon/pokemon_view_model_provider.dart';
 import 'package:pokemon_app/features/states/provider/poke_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +9,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: ( _ ) => PokeProvider()),
-        ChangeNotifierProvider(create: ( _ ) => PokemonViewModel()),
+        ChangeNotifierProvider(create: ( _ ) => PokemonViewModelProvider()),
       ],
       child: const MyApp(),
     ),

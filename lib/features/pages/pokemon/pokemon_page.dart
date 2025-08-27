@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:pokemon_app/features/pages/pokemon/pokemon_view_model.dart';
-import 'package:pokemon_app/features/states/provider/poke_provider.dart';
+import 'package:pokemon_app/features/pages/pokemon/pokemon_view_model_provider.dart';
 import 'package:provider/provider.dart';
 
 class PokemonPage extends StatefulWidget {
@@ -12,23 +11,22 @@ class PokemonPage extends StatefulWidget {
 }
 
 class _PokemonPageState extends State<PokemonPage> {
-  late PokemonViewModel pokemonModel;
-  final _cantidadController = TextEditingController();
+  late PokemonViewModelProvider pokemonModel;
+  final _cantidadController = TextEditingController(text: '30');
 
   @override
   void initState() {
     super.initState();
-    pokemonModel = context.read<PokemonViewModel>();
+    pokemonModel = context.read<PokemonViewModelProvider>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      pokemonModel.loadPokemons();
+      pokemonModel.loadPokemons(cantidad: _cantidadController.text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    pokemonModel = context.watch<PokemonViewModel>();
-    PokeProvider pokeProvider = Provider.of<PokeProvider>(context);
+    pokemonModel = context.watch<PokemonViewModelProvider>();
 
     return Scaffold(
       //Appbar con botón de recargar la lista de Pokémones.
@@ -38,7 +36,7 @@ class _PokemonPageState extends State<PokemonPage> {
         actions: [
           IconButton(
             onPressed: () {
-              pokemonModel.loadPokemons();
+              pokemonModel.loadPokemons(cantidad: _cantidadController.text);
             },
             icon: const Icon(Icons.refresh),
           )
@@ -67,9 +65,7 @@ class _PokemonPageState extends State<PokemonPage> {
                     ElevatedButton(
                       onPressed: () {
                         if (_cantidadController.text.isNotEmpty) {
-                          String cantidad = _cantidadController.text;
-                          pokeProvider.setCantidad(cantidad);
-                          pokemonModel.loadPokemons();
+                          pokemonModel.loadPokemons(cantidad: _cantidadController.text);
                         }
                       },
                       child: const Text('Buscar'),
@@ -81,9 +77,9 @@ class _PokemonPageState extends State<PokemonPage> {
                 child: Builder(
                   builder: (context) {
                     switch (pokemonModel.state) {
-                      case PokemonState.loading:
+                      case PokemonStateProvider.loading:
                         return const Center(child: CircularProgressIndicator());
-                      case PokemonState.content:
+                      case PokemonStateProvider.content:
                         return Container(
                           width: double.infinity,
                           child: ListView.builder(
@@ -97,11 +93,11 @@ class _PokemonPageState extends State<PokemonPage> {
                             },
                           ),
                         );
-                      case PokemonState.error:
+                      case PokemonStateProvider.error:
                         return Center(
                           child: ElevatedButton(
                             onPressed: () {
-                              pokemonModel.loadPokemons();
+                              pokemonModel.loadPokemons(cantidad: _cantidadController.text);
                             },
                             child: const Text('Reintentar'),
                           ),
